@@ -6,7 +6,7 @@ import './ProductList.css';
 function ProductList() {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
-    const [addedoCart, setAddedToCart] = useState({});
+    const [addedToCart, setAddedToCart] = useState({});
 
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart);
@@ -254,7 +254,7 @@ function ProductList() {
 
     const handleAddToCart = (product) => {
         dispatch(addItem(product));
-        setAddedToCart((prevState) => ({
+        setAddedToCart(prevState => ({
             ...prevState,
             [product.name]: true
         }));
@@ -291,7 +291,12 @@ function ProductList() {
                                         <h3 className="product-title">{plant.name}</h3>
                                         <p>{plant.description}</p>
                                         <p className="product-price">{plant.cost}</p>
-                                        <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                        <button
+                                            className={addedToCart[plant.name] ? "product-button added-to-cart" : "product-button"}
+                                            onClick={() => handleAddToCart(plant)}
+                                        >
+                                            Add to Cart
+                                        </button>
                                     </div>
                                 ))}
                             </div>
@@ -301,8 +306,9 @@ function ProductList() {
                 </div>
             ) : (
                 <CartItem onContinueShopping={handleContinueShopping} />
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
 
